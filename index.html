@@ -1,10 +1,11 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <title>八年级下册 完成句子 随机抽题</title>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <style>
         * {
             margin: 0;
@@ -23,6 +24,25 @@
             padding: 20px 0;
             position: relative;
             overflow-x: hidden;
+        }
+        
+        .cf-turnstile-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: #fafafa;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 9999;
+        }
+        
+        .main-content.hidden {
+            display: none;
         }
 
         body::before,
@@ -322,10 +342,15 @@
 </head>
 
 <body>
-    <div class="bg-shape shape1"></div>
-    <div class="bg-shape shape2"></div>
+    <div id="cf-turnstile-wrapper" class="cf-turnstile-container">
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAAAIgAte4pjnCU_gD" data-callback="onTurnstileSuccess"></div>
+    </div>
+    
+    <div class="main-content hidden">
+        <div class="bg-shape shape1"></div>
+        <div class="bg-shape shape2"></div>
 
-    <div class="container">
+        <div class="container">
         <div class="title">八年级下册 Unit1-3 完成句子 随机抽题</div>
 
         <div class="control-panel">
@@ -360,6 +385,12 @@
     </div>
 
     <script>
+        // Cloudflare Turnstile验证成功回调
+        function onTurnstileSuccess(token) {
+            document.getElementById('cf-turnstile-wrapper').style.display = 'none';
+            document.querySelector('.main-content').classList.remove('hidden');
+        }
+
         const questions = {
             unit1: [
                 { q: "设个闹钟提醒自己早点睡觉是个好习惯。It's a good habit to set an alarm to ______ go to bed early.", a: "remind yourself to" },
@@ -472,5 +503,6 @@
             questionBox.innerHTML = '点击「随机抽题」开始出题';
         });
     </script>
+    </div>
 </body>
 </html>
